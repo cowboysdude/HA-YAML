@@ -1,7 +1,9 @@
 # HA-YAML
 
-This is my entire ha yaml file.
+This is my entire lovelace yaml and config files.
 This is how my HA views look
+
+
 
 ![alt text](main.png)
 
