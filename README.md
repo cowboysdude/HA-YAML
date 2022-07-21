@@ -3,3 +3,4 @@
 This is my entire ha yaml file.
 This is how my HA views look
 
+![alt text](main.png)
