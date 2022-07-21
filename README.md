@@ -8,6 +8,7 @@ This is how my HA views look
 ![alt text](main.png)
 
 # Weather Page
+  The weather on the left is my personal weather station.  
 
 ![alt text](weather.PNG)
 
