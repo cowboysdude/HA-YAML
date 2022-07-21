@@ -3,7 +3,11 @@
 This is my entire lovelace yaml and config files.
 This is how my HA views look
 
+# Main Page
 
+![alt text](main.png)
+
+# Weather Page
 
 ![alt text](main.png)
 
