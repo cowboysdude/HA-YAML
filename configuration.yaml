@@ -1,0 +1,233 @@
+####################################################
+#                 HOME ASSISTANT                   #
+####################################################
+homeassistant:
+  customize: !include customize.yaml
+
+  allowlist_external_dirs:
+    - /config/
+
+###################################################
+#                   FRONTEND                       #
+####################################################
+frontend:
+  themes: !include themes.yaml
+  extra_module_url:
+    - /local/card-mod.js
+
+####################################################
+#          DEFAULT CONFIG, SUN, DISCOVERY          #
+####################################################
+cloud:
+config:
+mobile_app:
+#person:
+ssdp:
+sun:
+system_health:
+zeroconf:
+history:
+logbook:
+map:
+media_source:
+shopping_list:
+my:
+api:
+#script and automation are defined under "INCLUDES"
+#frontend has its own definition above
+
+#not part of 'default-config'
+discovery:
+
+####################################################
+#                   Places                         #
+####################################################
+sensor places_john:
+  - platform: places
+    name: john
+    devicetracker_id: device_tracker.sm_f926u1
+    options: zone,place
+    map_provider: google
+    map_zoom: 19
+    home_zone: zone.home
+    api_key: !secret email_john
+
+person:
+  - name: John
+    id: john
+    user_id: "44ed98fce508432cbe3f0500fd11c17b"
+    device_trackers:
+      - device_tracker.john_s_z_fold3
+      - device_tracker.sm_f926u1
+  # - name: Liz
+  #   id:
+  #   user_id: ""
+  #   device_trackers:
+  #     -
+  #     -
+
+#number:
+#  - platform: template
+#    name: "johnbed"
+#    id: "trigger_level"
+#    optimistic: true
+#    min: 0
+#    max: 3.5
+#    step: 0.05
+#    icon: mdi:arrow-collapse-down
+#    unit_of_measurement: V
+
+input_number:
+  johnbed_trigger_level:
+    name: Master Bed Trigger Level
+    min: 0.0
+    max: 12
+    step: 0.05
+    unit_of_measurement: V
+    icon: mdi:arrow-collapse-down
+
+####################################################
+#      LINKS TO INDIVUAL CONFIGURATION FILES       #
+####################################################
+#https://home-assistant.io/docs/configuration/splitting_configuration/
+
+#zone: !include includes/zones.yaml
+#recorder: !include includes/recorder.yaml
+#input_number: !include includes/input_number.yaml
+#input_select: !include includes/input_select.yaml
+#input_boolean: !include includes/input_boolean.yaml
+#input_text: !include includes/input_text.yaml
+#device_tracker: !include includes/device_tracker.yaml
+automation: !include_dir_merge_list includes/automations/
+light: !include_dir_merge_list includes/lights/
+#group: !include_dir_merge_list /include/groups/
+group: !include includes/groups.yaml
+scene: !include includes/scenes.yaml
+input_boolean: !include includes/input_boolean.yaml
+script: !include_dir_merge_named includes/scripts/
+switch: !include_dir_merge_list includes/switches/
+binary_sensor: !include_dir_merge_list includes/binary_sensors/
+sensor: !include_dir_merge_list includes/sensors/
+#- platform: sun2:
+#  monitored_conditions:
+#    - solar_midnight
+
+### EOF STIGH
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+# default_config:
+# REM BY STIGH
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+weather:
+  - platform: darksky
+    api_key: !secret forecast_key
+    mode: daily
+
+# Sonos example entry
+media_player:
+  - platform: universal
+    name: sonos_pair
+    children:
+      - media_player.sonos_five
+      - media_player.unnamed_room
+    device_class: speaker
+
+#############################################################################################################################################
+#                                                                                                                                           #
+#                                                                  LOVELACE                                                                 #
+#                                                                                                                                           #
+#############################################################################################################################################
+
+lovelace:
+  mode: yaml
+  resources:
+    - url: /hacsfiles/button-card/button-card.js
+      type: module
+
+    - url: /hacsfiles/simple-thermostat/simple-thermostat.js
+      type: module
+
+    - url: /hacsfiles/lovelace-thermostat-card/main.js
+      type: module
+
+    - url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=1.2.7
+      type: module
+
+    - url: /hacsfiles/lovelace-card-mod/card-mod.js
+      type: module
+
+    - url: /hacsfiles/custom-ui/custom-ui.js
+      type: module
+
+    - url: /hacsfiles/lovelace-card-tools/card-tools.js
+      type: module
+
+    - url: /local/moment.js
+      type: module
+
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+      type: module
+
+    - url: /local/custom-ui/dark-sky-weather-card.js
+      type: module
+
+    - url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
+      type: module
+
+    - url: /hacsfiles/lovelace-clock-card/clock-card.js
+      type: module
+
+    - url: /local/custom-ui/mini-media-player-bundle.js?v=1.16.2
+      type: module
+
+    - url: /hacsfiles/battery-state-card/battery-state-card.js
+      type: module
+
+    - url: /hacsfiles/lovelace-battery-entity-row/battery-entity-row.js
+      type: module
+
+    - url: /hacsfiles/lovelace-header-cards/lovelace-header-cards.js
+      type: module
+
+    - url: /hacsfiles/custom-sonos-card/custom-sonos-card.js
+      type: module
+
+    - url: /hacsfiles/ha-navbar-position/ha-navbar-position.js
+      type: module
+
+    - url: /hacsfiles/secondaryinfo-entity-row/secondaryinfo-entity-row.js
+      type: module
+
+    - url: /hacsfiles/bar-card/bar-card.js
+      type: module
+
+    - url: /hacsfiles/lovelace-more-info-card/more-info-card.js
+      type: module
+
+    - url: /hacsfiles/surveillance-card/surveillance-card.js
+      type: module
+
+    - url: /hacsfiles/lovelace-mushroom/mushroom.js
+      type: module
+
+    - url: /hacsfiles/purifier-card/purifier-card.js
+      type: module
+
+    - url: /hacsfiles/decluttering-card/decluttering-card.js
+      type: module
+
+    - url: /hacsfiles/stack-in-card/stack-in-card.js
+      type: module
+
+    - url: /hacsfiles/refreshable-picture-card/refreshable-picture-card.js
+      type: module
+
+    - url: /hacsfiles/bom-weather-card/bom-weather-card.js
+      type: module
+
+    - url: /hacsfiles/lovelace-hourly-weather/hourly-weather.js
+      type: module
