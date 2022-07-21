@@ -1,0 +1,2750 @@
+#############################################################################################################################################
+#                                                                                                                                           #
+#                                                           COMPACT CUSTOM HEADER                                                           #
+#                                                                                                                                           #
+#############################################################################################################################################
+custom_header:
+  split_mode: false
+  reverse_button_direction: false
+  compact_mode: true
+  hide_raw: true
+  voice_hide: false
+  background: "rgba(0,0,0,0.0)"
+  active_tab_color: "rgba(64,102,252,0.0)"
+  #button_text:
+  #  options: >-
+  #  {{ hours12 }}:{{ minutesLZ }} {{ AMPM }} - {{ date }}
+  exceptions:
+    - conditions:
+        user: tablet
+      config:
+        disable_sidebar: true
+        hide_help: true
+        hide_unused: true
+        hide_config: true
+
+#############################################################################################################################################
+#                                                                                                                                           #
+#                                                                  ANCHORS                                                                  #
+#                                                                                                                                           #
+#############################################################################################################################################
+
+anchors:
+  # Makes any card's inactive colors active
+
+  card_mod_transparent: &card_mod_transparent
+    style: |
+      ha-card {
+        background-color: transparent; border: none; box-shadow: none;
+      }
+
+  # Makes any card's inactive colors active, with border
+  card_mod_transparent_border: &card_mod_transparent_border
+    style: |
+      ha-card {
+        background-color: transparent; border: 'solid 1px rgba(57,128,228)'; box-shadow: none;
+      }
+
+      ### CB = CARD BUTTON
+
+  # BUTTON CB HEADER
+  ##################
+
+  cb_header: &cb_header
+    type: "custom:button-card"
+    color_type: label-card
+    color: rgb(44, 109, 214)
+    styles:
+      card:
+        - background: none
+        - height: 5px
+        - border: "solid 1px rgba(255, 255, 241, 1)" # changed this 7/2021 from (57,128,228)
+
+  plain_header: &plain_header
+    type: "custom:button-card"
+    color_type: label-card
+    color: rgb(44, 109, 214)
+    styles:
+      card:
+        - background: none
+        - height: 5px
+        - border: none
+        - font-size: 25px
+
+  round_header: &round_header
+    type: "custom:button-card"
+    color_type: label-card
+    color: rgb(44, 109, 214)
+    styles:
+      card:
+        - background: "rgba(255, 255, 255, .1)"
+        - color: "rgba(255, 255, 255, 1)"
+        - height: 35px
+        - border: 1px solid black
+        - font-size: 25px
+        - border-radius: 0
+        - padding: 0
+
+  # BUTTON SPACER FOR LEFT/RIGHT OF BUTTONS IN H-STACK
+  ####################################################
+
+  cb_vertical_spacer: &cb_vertical_spacer
+    type: custom:button-card
+    color_type: blank-card
+    styles:
+      card:
+        - background: none
+        - height: 10px
+
+    # BUTTON SPACER FOR LEFT/RIGHT OF BUTTONS IN H-STACK
+  ####################################################
+
+  cb_vertical_spacer_20: &cb_vertical_spacer_20
+    type: custom:button-card
+    color_type: blank-card
+    styles:
+      card:
+        - background: none
+        - height: 50px
+
+  # 6px SPACER FOR LEFT/RIGHT OF BUTTONS IN H-STACK
+  #################################################
+
+  cb_spacer_6px: &cb_spacer_6px
+    type: custom:button-card
+    color_type: blank-card
+    styles:
+      card:
+        - width: 6px
+
+  # 10px SPACER FOR LEFT/RIGHT OF BUTTONS IN H-STACK
+  ##################################################
+
+  cb_spacer_10px: &cb_spacer_10px
+    type: custom:button-card
+    color_type: blank-card
+    styles:
+      card:
+        - width: 10px
+
+  cb_spacer_1px: &cb_spacer_1px
+    type: custom:button-card
+    color_type: blank-card
+    styles:
+      card:
+        - width: 1px
+  ###############################
+
+  cb_standard_button: &cb_standard_button
+    type: custom:button-card
+    layout: icon_label
+    #color: auto
+    #aspect_ratio: 1/1
+    show_state: true
+    show_name: true
+    show_label: false
+    styles      grid:
+      - grid-template-rows: 42px auto 42px
+      - grid-template-columns: 42px auto
+    card:
+      - background-color: transparent
+      - border: "solid 1px rgba(57,128,228)"
+      - border-radius: 8px
+      - margin: 5px 5px 0px 0px
+      - padding: 0px 0px
+      - height: 90px
+      #- width: 90px
+    icon:
+      - height: 20px
+      - width: 20px
+      - color: "#2F7EFD"
+    name:
+      - justify-self: start
+      - padding: 0px 10px
+      - font-size: 13px
+      - color: "#2F7EFD"
+    state:
+      - font-size: 11px
+      - font-family: Helvetica
+      - text-transform: capitalize
+      - font-weight: bold
+      - align-self: end
+      - justify-self: start
+      - padding: 9px 10px
+      - color: "#2F7EFD"
+    lock:
+      - align-items: flex-end
+    states:
+      - value: "on"
+        styles:
+          card:
+            - box-shadow: 0px 0px 15px 5px rgba(57,128,228)
+          icon:
+            - color: "#fed281"
+          name:
+            - color: white
+          state:
+            - color: white
+          label:
+            - color: white
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+
+  ####################################
+
+  cb_standard_button_narrow: &cb_standard_button_narrow
+    type: custom:button-card
+    layout: icon_name
+    show_state: false
+    show_icon: true
+    show_name: true
+    show_label: false
+    styles:
+      card:
+        - background-color: transparent
+        - border: "solid 1px rgba(57,128,228)"
+        - border-radius: 8px
+        - padding: 0px 0px
+        - height: 50px
+      icon:
+        - height: 20px
+        - width: 20px
+        - color: "#2F7EFD"
+      name:
+        - font-size: 13px
+        - color: "#2F7EFD"
+      state:
+        - font-size: 11px
+        - font-family: Helvetica
+        - text-transform: capitalize
+        - font-weight: bold
+        - color: "#2F7EFD"
+    state:
+      - value: "on"
+        styles:
+          card:
+            - box-shadow: 0px 0px 15px 5px rgba(57,128,228)
+          icon:
+            - color: "#FFFF00"
+          name:
+            - color: white
+          state:
+            - color: white
+          label:
+            - color: white
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+
+  ####################################
+
+  ha-card_mushroom: &ha-card_mushroom
+    type: custom:mushroom-light-card
+    styles:
+      card:
+        - border: "solid 1px rgba(57,128,228)"
+    state:
+      - value: "on"
+        styles:
+          card:
+            - box-shadow: 0px 0px 15px 5px rgba(57,128,228)
+          icon:
+            - color: "#FFFF00"
+          name:
+            - color: white
+          state:
+            - color: white
+          label:
+            - color: white
+
+  ###############################################
+
+  cb_standard_button_narrow_popup: &cb_standard_button_narrow_popup
+    type: custom:button-card
+    layout: icon_name
+    show_state: false
+    show_icon: true
+    show_name: true
+    show_label: false
+    aspect_ratio: 1/1
+    styles:
+      card:
+        - background-color: transparent ### Denne har jeg lagt til selv
+        - border: "solid 1px rgba(57,128,228)" ### Virker denne?
+        - border-radius: 15px
+        - padding: 0px 0px
+        #- height: 50px
+      icon:
+        - height: 20px
+        - width: 20px
+        - color: "#2F7EFD"
+      name:
+        - font-size: 13px
+        - color: "#2F7EFD"
+      state:
+        - font-size: 11px
+        - font-family: Helvetica
+        - text-transform: capitalize
+        - font-weight: bold
+        - color: "#2F7EFD"
+
+  cb_standard_button_scenes: &cb_standard_button_scenes
+    type: custom:button-card
+    size: 70%
+    show_state: false
+    show_label: false
+    show_name: true
+    show_entity_picture: true
+    color_type: card
+    aspect_ratio: 1/1
+    color: transparent
+    styles:
+      name:
+        - padding-left: 3px
+        - font-weight: bold
+        - font-family: Helvetica
+        - font-size: 13px
+        - color: "lightgrey"
+      card:
+        - background-color: transparent
+        - border: "solid 1px rgba(57,128,228)"
+        - border-radius: 8px
+        - padding: 0px 0px
+
+#############################################################################################################################################
+#                                                                                                                                           #
+#                                                            VIEW 0 - JOHN'S CRIB                                                           #
+#                                                                                                                                           #
+#############################################################################################################################################
+
+title: " "
+#background: black
+#background: center / cover no-repeat url("/local/wallpaper/black2.jpg") fixed
+background: center / cover no-repeat url("/local/wallpaper/blue.jpg") fixed
+
+views:
+  - title: House
+    icon: mdi:home-assistant
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            card_mod:
+              style: |
+                ha-card {
+                  background-color: rgba(var(--rgb-card-background-color),0.2);
+                }
+            chips:
+              - type: entity
+                entity: sensor.12hourtime
+                icon: mdi:clock
+                icon_color: orange
+                card_mod:
+                  style: |
+                    ha-card {
+                      width: 50%;
+                      --chip-font-weight: bold;
+                      --chip-font-size: 25px;                  
+                    }
+
+              - type: entity
+                icon: mdi:calendar
+                icon_color: yellow
+                entity: sensor.date_format
+                card_mod:
+                  style: |
+                    ha-card {
+                      width: 50%;
+                      --chip-font-weight: bold;
+                      --chip-font-size: 25px;
+                    }
+
+          - type: custom:mushroom-media-player-card
+            entity: media_player.sonos_pair
+            icon: mdi:music
+            use_media_artwork: false
+            use_media_info: true
+            media_controls:
+              - play_pause_stop
+              - previous
+              - next
+            collapsible_controls: true
+            volume_controls:
+              - volume_set
+              - volume_mute
+            show_volume_level: true
+            fill_container: true
+            tap_action:
+              action: toggle
+            style: |
+              ha-card {
+                  background-color: black;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  position: relative;
+                  font-size: 75px;
+                  background-color: rgba(var(--rgb-card-background-color),0.2);
+              }
+
+      # - type: custom:mushroom-person-card
+      #   entity: person.john
+      #   layout: horizontal
+      #   #icon: mdi:emoticon-confused-outline
+      #   use_entity_picture: true
+      #   #primary_info: sensor.sm_f926u1_battery_level
+      #   #secondary_info: sensor.sm_f926u1_battery_level
+      #   hide_state: false
+      #   fill_container: true
+      #   hide_name: false
+      #   layout: vertical
+      #   style: |
+      #     :host {
+      #       --mush-rgb-state-person-home: var(--rgb-blue);
+      #       --mush-rgb-state-person-not-home: var(--rgb-purple);
+      #       --mush-rgb-state-person-zone: var(--rgb-amber);
+      #       --ha-card-background: rgba(227, 245, 250, 0.12);
+      #     }
+
+      #  - type: custom:mushroom-alarm-control-panel-card
+      #    entity: alarm_control_panel.blink_johns_house
+      #    card_mod:
+      #      style: |
+      #        ha-card {
+      #          background-color: {{ 'rgba(255, 255, 255, .1)' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') else 'rgba(147, 227, 215, 0.5)' }};
+      #        }
+      #    states:
+      #      - armed_away
+      #    name: Camera System
+      #    icon: mdi:shield-home
+      #    icon_color: "{{ is_state('alarm_control_panel.blink_johns_house', 'disarmed') | iif('red', 'green') }}"
+      #    layout: vertical
+
+      ################################################
+      # person card - John
+      ######################################
+      - type: custom:stack-in-card
+        mode: vertical
+        card_mod:
+        style: |
+          ha-card {
+          background-color: rgba(255, 255, 255, .1);
+          }
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            cards:
+              - type: custom:mushroom-person-card
+                entity: device_tracker.sm_f926u1
+                icon_type: entity-picture
+                hide_name: true
+                layout: vertical
+                secondary_info: state
+              - type: conditional
+                conditions:
+                  - entity: sensor.sm_f926u1_battery_state
+                    state: "charging"
+                card:
+                  type: custom:mushroom-template-card
+                  entity: sensor.sm_f926u1_battery_level
+                  layout: vertical
+                  icon_color: yellow
+                  fill_container: true
+                  name: Fold3
+                  icon: mdi:battery-charging-medium
+                  hide_name: true
+                  primary: "Battery Level: {{ states('sensor.sm_f926u1_battery_level') }}%"
+                  secondary: "Signal Strength: {{ states('person.john_s_z_fold3_signal_strength') }}%"
+                  card_mod:
+                    style: |
+                      mushroom-shape-icon {
+                        animation: blink 1s linear infinite;
+                      }          
+                      @keyframes blink {
+                        50% {opacity: 0;}
+                      }
+              - type: conditional
+                conditions:
+                  - entity: sensor.sm_f926u1_battery_state
+                    state: "discharging"
+                card:
+                  type: custom:mushroom-template-card
+                  entity: sensor.sm_f926u1_battery_level
+                  layout: vertical
+                  icon: |2
+                      {% set bl = states('sensor.sm_f926u1_battery_level') | int %}
+                      {% if bl < 10 %} mdi:battery-outline
+                      {% elif bl < 20 %} mdi:battery-10
+                      {% elif bl < 30 %} mdi:battery-20
+                      {% elif bl < 40 %} mdi:battery-30
+                      {% elif bl < 50 %} mdi:battery-40
+                      {% elif bl < 60 %} mdi:battery-50
+                      {% elif bl < 70 %} mdi:battery-60
+                      {% elif bl < 80 %} mdi:battery-70
+                      {% elif bl < 90 %} mdi:battery-80
+                      {% elif bl < 100 %} mdi:battery-90
+                      {% elif bl == 100 %} mdi:battery
+                      {% else %} mdi:battery-unknown
+                      {% endif %}
+                  icon_color: |2-
+                              {% set bl = states('sensor.sm_f926u1_battery_level') | int %}
+                              {% if bl < 10 %} #cc0c16
+                              {% elif bl < 20 %} #e61e28
+                              {% elif bl < 30 %} #e3464e
+                              {% elif bl < 40 %} orange
+                              {% elif bl < 50 %} #f0b93a
+                              {% elif bl < 60 %} #f3f56c
+                              {% elif bl < 70 %} #f2f536
+                              {% elif bl < 80 %} #69f095
+                              {% elif bl < 90 %} #2ee669
+                              {% elif bl < 100 %} #05ad3b
+                              {% elif bl == 100 %} #03872d
+                              {% else %} grey
+                              {% endif %}
+                  primary: "Battery Level: {{ states('sensor.sm_f926u1_battery_level') }}%"
+                  secondary: "Battery Temp: {{ states('sensor.sm_f926u1_battery_temperature') }}°"
+                  tap_action:
+                    action: more-info
+                  fill_container: true
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: binary_sensor.front_door_sensor_contact
+                content_info: none
+              - type: entity
+                entity: binary_sensor.back_door_sensor_contact
+                content_info: none
+              - type: entity
+                entity: binary_sensor.bedroom_window_sensor_contact
+                content_info: none
+              - type: entity
+                entity: binary_sensor.right_kitchen_window_contact
+                content_info: none
+              - type: entity
+                entity: binary_sensor.sink_kitchen_window_contact
+                content_info: none
+              - type: entity
+                entity: binary_sensor.tv_window_sensor_contact
+                content_info: none
+              - type: template
+                content: >-
+                  {{ states('sensor.living_room_temp_sensor_temperature')| round (0)}}°F
+                tap_action:
+                  action: none
+              - type: entity
+                entity: lock.front_door_lock_2
+                content_info: none
+              - type: entity
+                entity: alarm_control_panel.blink_johns_house
+                content_info: none
+              - type: template
+                content: >-
+                  {{ states('climate.john_s_device')}}
+                tap_action:
+                  action: none
+              - type: entity
+                entity: sensor.blink_back_yard_temperature
+                content_info: none
+          - type: custom:mushroom-template-card
+            entity: sensor.john
+            primary: >
+              {% if (state_attr('sensor.john', 'direction_of_travel') == 'stationary') and (state_attr('sensor.john','home_zone') == 'zone.home') %}
+              John is Home:
+              {% elif (state_attr('sensor.john', 'direction_of_travel') == 'stationary')%}
+              John is Here:              
+              {% else %}
+              John is
+              {% endif %}
+            secondary: >
+              {% if (state_attr('sensor.john','direction_of_travel') == 'stationary') %}
+              {{ state_attr('sensor.john','street_number') }} {{
+              state_attr('sensor.john','street') }}, {{
+              state_attr('sensor.john','city') }}, {{
+              state_attr('sensor.john','postal_code') }}
+              {% else %}
+              {% if states('sensor.speed_mph') > 0 %}
+              John is traveling and is going {{ states('sensor.speed_mph') }} MPH
+              {% else %}
+              Traveling...
+              {% endif %}
+              {% endif %}
+            icon: >-
+              {% if (state_attr('sensor.john','direction_of_travel') == 'stationary') and (states('device_tracker.sm_f926u1') == 'home') %} mdi:home-account
+              {% elif (state_attr('sensor.john','direction_of_travel') == 'stationary') and (states('device_tracker.sm_f926u1') == 'not_home') %} mdi:domain
+              {% else %} mdi:car
+              {% endif %}
+            icon_color: >-
+              {% if (state_attr('sensor.john','direction_of_travel') == 'stationary') and (states('device_tracker.sm_f926u1') == 'home') %} green
+              {% elif (state_attr('sensor.john','direction_of_travel') == 'stationary') and (states('device_tracker.sm_f926u1') == 'not_home') %} blue
+              {% else %} cyan
+              {% endif %}
+            multiline_secondary: true
+
+          - type: map
+            default_zoom: 16
+            entities:
+              - device_tracker.sm_f926u1
+            aspect_ratio: 1.95:1
+            # {{ state_attr('person.john', 'map_link') }}
+
+      - type: vertical-stack
+        cards:
+          - type: grid
+            #title: Security
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-alarm-control-panel-card
+                entity: alarm_control_panel.blink_johns_house
+                states:
+                  - armed_away
+                name: Security System
+                layout: vertical
+                card_mod:
+                  style: |
+                    ha-card {                     
+                     
+                    mushroom-shape-icon {
+                      {{ 'animation: blink 1.3s ease-in-out infinite; color:red;' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') }}
+                    }
+                    @keyframes blink {
+                      50% {opacity: 0.1;}
+                    }
+
+              - type: custom:mushroom-template-card
+                layout: vertical
+                secondary: 'Battery: {{ state_attr(entity, "battery") }}%'
+                entity: lock.front_door_lock_2
+                primary: |
+                  {% if is_state(entity, 'unlocked') %}
+                  Door is Unlocked
+                  {% else %}
+                  Door is Locked
+                  {% endif %}
+                icon_color: |
+                  {% if is_state(entity, 'unlocked') %}
+                  red
+                  {% else %}
+                  green
+                  {% endif %}
+                icon: |
+                  {% if is_state(entity, 'unlocked') %}
+                  mdi:lock-open
+                  {% else %}
+                  mdi:lock
+                  {% endif %}
+                card_mod:
+                  style: |
+                    ha-card { 
+                      height:160px !important;
+                    }
+                    mushroom-shape-icon {
+                      {{ 'animation: blink 1.3s ease-in-out infinite;' if is_state('lock.front_door_lock_2', 'unlocked') }}
+                    }
+                    @keyframes blink {
+                      50% {opacity: 0.1;}
+                    }
+
+          # - type: custom:mushroom-alarm-control-panel-card
+          #   entity: alarm_control_panel.blink_johns_house
+          #   states:
+          #     - armed_away
+          #   name: Security System
+          #icon: >-
+          #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
+          #  mdi:shield-home
+          #  {% else %}
+          #  mdi:shield-home-outline
+          #  {% endif %}
+          #icon_color: |
+          #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
+          #  green
+          #  {% else %}
+          #  cyan
+          #  {% endif %}
+          #   layout: vertical
+          #   card_mod:
+          #     style: |
+          #       ha-card {
+          #         background-color: {{ 'rgba(255, 255, 255, 0.1)' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') else 'rgba(147, 227, 215, 0.5)' }};
+          #       }
+          #       mushroom-shape-icon {
+          #         {{ 'animation: blink 1.3s ease-in-out infinite; color:red;' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') }}
+          #       }
+          #       @keyframes blink {
+          #         50% {opacity: 0.1;}
+          #       }
+
+          #######################################################################################
+          #                              END PERSON CARD
+          #######################################################################################
+
+          # - type: vertical-stack
+          #   cards:
+          # - type: custom:mushroom-template-card
+          #   layout: vertical
+          #   secondary: 'Battery: {{ state_attr(entity, "battery") }}%'
+          #   entity: lock.front_door_lock_2
+          #   primary: |
+          #     {% if is_state(entity, 'unlocked') %}
+          #     Door is Unlocked
+          #     {% else %}
+          #     Door is Locked
+          #     {% endif %}
+          #   icon_color: |
+          #     {% if is_state(entity, 'unlocked') %}
+          #     red
+          #     {% else %}
+          #     green
+          #     {% endif %}
+          #   icon: |
+          #     {% if is_state(entity, 'unlocked') %}
+          #     mdi:lock-open
+          #     {% else %}
+          #     mdi:lock
+          #     {% endif %}
+          #   card_mod:
+          #     style: |
+          #       ha-card {
+          #         background-color: {{ 'rgba(255, 255, 255, 0.1)' if is_state('lock.front_door_lock_2', 'unlocked') else 'rgba(147, 227, 215, 0.5)' }};
+          #         height:125px !important;
+          #       }
+          #       mushroom-shape-icon {
+          #         {{ 'animation: blink 1.3s ease-in-out infinite;' if is_state('lock.front_door_lock_2', 'unlocked') }}
+          #       }
+          #       @keyframes blink {
+          #         50% {opacity: 0.1;}
+          #       }
+
+          - type: grid
+            #title: Lights
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-light-card
+                entity: group.all_lights
+                icon: mdi:ceiling-light-multiple
+                show_brightness_control: true
+                use_light_color: true
+                collapsible_controls: true
+                style: |
+                  ha-card {
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                primary: 'Air Quality: {{ states("sensor.air_sensor_front_of_house_voc") }}'
+                secondary: 'Battery: {{ states("sensor.air_sensor_front_of_house_battery") }}%'
+                icon: mdi:wind-power
+                entity: sensor.air_sensor_front_of_house_voc
+                name: Front of House
+                icon_animation: true
+                fill_container: true
+                style: |
+                  ha-card {
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.back_door_sensor_contact
+                primary:
+                  'Backdoor:  {% if is_state("binary_sensor.back_door_sensor_contact", "off") %}
+                  Closed
+                  {% else %}
+                  Open
+                  {% endif %}'
+                secondary: 'Battery: {{ states("sensor.back_door_sensor_battery") }}%'
+                icon_color: |
+                  {% if is_state('binary_sensor.back_door_sensor_contact', 'on') %}
+                  red
+                  {% else %}
+                  green
+                  {% endif %}
+                icon: |
+                  {% if is_state('binary_sensor.back_door_sensor_contact', 'on') %}
+                  mdi:door-open
+                  {% else %}
+                  mdi:door
+                  {% endif %}
+                use_light_color: false
+                tap_action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                primary:
+                  'Front door: {% if is_state("binary_sensor.front_door_sensor_contact", "off") %}
+                  Closed
+                  {% else %}
+                  Open
+                  {% endif %}'
+                secondary: 'Battery: {{ states("sensor.front_door_sensor_battery") }}%'
+                entity: binary_sensor.front_door_sensor_contact
+                icon_color: |
+                  {% if is_state('binary_sensor.front_door_sensor_contact', 'on') %}
+                  red
+                  {% else %}
+                  green
+                  {% endif %}
+                icon: |
+                  {% if is_state('binary_sensor.front_door_sensor_contact', 'on') %}
+                  mdi:door-open
+                  {% else %}
+                  mdi:door
+                  {% endif %}
+                use_light_color: false
+                tap_action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary:
+              'Bedroom Window: {% if is_state("binary_sensor.bedroom_window_sensor_contact", "off") %}
+              Closed
+              {% else %}
+              Open
+              {% endif %}'
+            secondary: 'Battery: {{ states("sensor.bedroom_window_sensor_battery") }}%'
+            entity: binary_sensor.bedroom_window_sensor_contact
+            icon_color: |
+              {% if is_state('binary_sensor.bedroom_window_sensor_contact', 'on') %}
+              red
+              {% else %}
+              green
+              {% endif %}
+            icon: |
+              {% if is_state('binary_sensor.bedroom_window_sensor_contact', 'on') %}
+              mdi:curtains
+              {% else %}
+              mdi:curtains-closed
+              {% endif %}
+            use_light_color: false
+            tap_action:
+              action: more-info
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+          - type: custom:mushroom-template-card
+            primary:
+              'Kitchen Window: {% if is_state("binary_sensor.right_kitchen_window_contact", "off") %}
+              Closed
+              {% else %}
+              Open
+              {% endif %}'
+            secondary: 'Battery: {{ states("sensor.right_kitchen_window_battery") }}%'
+            entity: binary_sensor.right_kitchen_window_contact
+            icon_color: |
+              {% if is_state('binary_sensor.right_kitchen_window_contact', 'on') %}
+              red
+              {% else %}
+              green
+              {% endif %}
+            icon: |
+              {% if is_state('binary_sensor.right_kitchen_window_contact', 'on') %}
+              mdi:curtains
+              {% else %}
+              mdi:curtains-closed
+              {% endif %}
+            use_light_color: false
+            tap_action:
+              action: more-info
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary:
+              'TV Window: {% if is_state("binary_sensor.tv_window_sensor_contact", "off") %}
+              Closed
+              {% else %}
+              Open
+              {% endif %}'
+            secondary: 'Battery: {{ states("sensor.tv_window_sensor_battery") }}%'
+            entity: binary_sensor.tv_window_sensor_contact
+            icon_color: |
+              {% if is_state('binary_sensor.tv_window_sensor_contact', 'on') %}
+              red
+              {% else %}
+              green
+              {% endif %}
+            icon: |
+              {% if is_state('binary_sensor.tv_window_sensor_contact', 'on') %}
+              mdi:curtains
+              {% else %}
+              mdi:curtains-closed
+              {% endif %}
+            use_light_color: false
+            tap_action:
+              action: more-info
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+          - type: custom:mushroom-template-card
+            primary:
+              'TV Window: {% if is_state("binary_sensor.tv_window_sensor_contact", "off") %}
+              Closed
+              {% else %}
+              Open
+              {% endif %}'
+            secondary: 'Battery: {{ states("sensor.tv_window_sensor_battery") }}%'
+            entity: binary_sensor.tv_window_sensor_contact
+            icon_color: |
+              {% if is_state('binary_sensor.tv_window_sensor_contact', 'on') %}
+              red
+              {% else %}
+              green
+              {% endif %}
+            icon: |
+              {% if is_state('binary_sensor.tv_window_sensor_contact', 'on') %}
+              mdi:curtains
+              {% else %}
+              mdi:curtains-closed
+              {% endif %}
+            use_light_color: false
+            tap_action:
+              action: more-info
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: 'AC: {% if is_state("climate.john_s_device", "cool") %}
+              Cooling
+              {% else %}
+              Off
+              {% endif %}'
+            #secondary: 'AC: {{ states("sensor.tv_window_sensor_battery") }}%'
+            entity: climate.john_s_device
+            icon_color: |
+              {% if is_state('climate.john_s_device', 'cool') %}
+              blue
+              {% else %}
+              red
+              {% endif %}
+            icon: |
+              {% if is_state('climate.john_s_device', 'cool') %}
+              mdi:fan-chevron-down
+              {% else %}
+              mdi:fan-chevron-up
+              {% endif %}
+            use_light_color: false
+            tap_action:
+              action: more-info
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: 'John there are {{ states("sensor.lightson") }} lights on'
+            entity: sensor.lightson
+            icon: mdi:lightbulb-alert
+            use_light_color: false
+            tap_action:
+              action: more-info
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+          - type: custom:mushroom-light-card
+            entity: light.outside_front_lights
+            icon: mdi:lightbulb
+            use_light_color: true
+            show_brightness_control: true
+            show_color_temp_control: true
+            collapsible_controls: true
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+          - type: custom:mushroom-light-card
+            entity: switch.front_porch_light
+            icon: mdi:lightbulb
+            use_light_color: true
+            show_brightness_control: true
+            show_color_temp_control: true
+            collapsible_controls: true
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+          - type: custom:mushroom-light-card
+            entity: switch.back_outside_light
+            icon: mdi:lightbulb
+            use_light_color: true
+            show_brightness_control: true
+            show_color_temp_control: true
+            collapsible_controls: true
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+          - type: custom:mushroom-light-card
+            entity: switch.colored_light
+            icon: mdi:lightbulb-multiple
+            use_light_color: false
+            show_brightness_control: false
+            show_color_temp_control: false
+            collapsible_controls: false
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+
+          ####################################################
+          #  FEEDPARSER                                      #
+          ####################################################
+
+          # - type: markdown
+          #   card_mod:
+          #     style: |
+          #       ha-card {
+          #         --ha-card-background: rgba(255, 255, 255, .1);
+          #         box-shadow: 0px 4px 6px 0px rgba(255,255,255,0.21);
+          #         border-radius: 1;
+          #         color: white;
+          #         font-weight: bold;
+          #       }
+          #   content: >-
+          #     {{ state_attr("sensor.quote_of_the_day", "quote") }} <br>
+          #       {{ state_attr("sensor.quote_of_the_day", "author") }}
+
+      ###############################################################
+      #  END FEEDPARSER                                             #
+      ###############################################################
+
+  ########################################
+  #             Tab 3  - Sensors         #
+  # ######################################
+
+  - title: Sensors
+    background: center / cover no-repeat url("/local/images/backgrounds/darkblack.jpg") fixed
+    icon: mdi:vector-circle
+    cards:
+      ####################### Humidity Sensors ##############################
+      - type: horizontal-stack
+        cards:
+          - <<: *round_header
+            name: Room Temps
+
+      - type: entities
+        card_mod:
+        style: |
+          ha-card {
+            --ha-card-background: teal;
+            --ha-card-box-shadow: 0px 4px 6px 0px rgba(255,255,255,0.21);
+          }
+        entities:
+          - sensor.bathroom_temp_sensor_temperature
+          - sensor.bedroom_temp_sensor_temperature
+          - sensor.spare_room_temp_sensor_temperature
+          - sensor.living_room_temp_sensor_temperature
+
+      ######################## Water Sensors ##############################
+      - type: horizontal-stack
+        cards:
+          - <<: *round_header
+            name: Water Leak Sensors
+
+      - type: entities
+        # <<: *card_mod_transparent
+        style: |
+          ha-card {
+            --ha-card-background: purple;
+            --ha-card-box-shadow: 0px 4px 6px 0px rgba(255,255,255,0.21);
+          }
+        entities:
+          #- binary_sensor.kitchen_water_leak_sensor_water
+          - binary_sensor.bathroom_water_sensor_water_leak
+          - binary_sensor.hot_water_leak_sensor_water_leak
+          - binary_sensor.samsung_water_tank_water_leak
+
+          - <<: *cb_vertical_spacer
+
+      ####################### Printer  ######################################
+
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: My Printer
+
+      - type: custom:bar-card
+        color: black
+        icon: inside
+        indicator: inside
+        entities:
+          - sensor.epson_xp_4100_series_black_ink
+          - sensor.epson_xp_4100_series_cyan_ink
+          - sensor.epson_xp_4100_series_magenta_ink
+          - sensor.epson_xp_4100_series_yellow_ink
+        height: 50px
+        width: 100%
+        animation:
+          state: on
+          speed: 5
+        card_mod:
+          style: |
+            bar-card-value {              
+              margin-right: -120px;
+              width: 95%;
+              font-size: 14px;               
+              text-shadow: 1px 1px #c0c0c0;
+              bar-card-border-radius: 2px;
+            }
+        min: 0
+        max: 100
+        severity:
+          - color: Red
+            from: 0
+            to: 25
+          - color: Orange
+            from: 26
+            to: 50
+          - color: Green
+            from: 51
+            to: 100
+
+  ####################### Batteries ######################################
+
+  - title: Batteries
+    background: center / cover no-repeat url("/local/images/backgrounds/gray.jpg") fixed
+    icon: mdi:battery
+    cards:
+      ####################### Humidity Sensors ##############################
+
+      - type: horizontal-stack
+        cards:
+          - <<: *round_header
+            name: Battery Levels
+
+      - type: custom:battery-state-card
+        <<: *card_mod_transparent
+        sort_by_level: "asc"
+        collapse: 10
+        color_thresholds:
+          - value: 10
+            color: "#ff0000"
+          - value: 20
+            color: "#ff0000"
+          - value: 30
+            color: "#ffcc00"
+          - value: 40
+            color: "#ffcc33"
+          - value: 50
+            color: "#ffff00"
+          - value: 60
+            color: "#ccff33"
+          - value: 70
+            color: "#99ff00"
+          - value: 80
+            color: "#99ff00"
+          - value: 90
+            color: "#00ff00"
+          - value: 100
+            color: "#00ff00"
+        entities:
+          - entity: sensor.living_room_temp_sensor_battery_2
+            name: Living Room
+          - entity: sensor.bedroom_motion_sensor_battery_2
+            name: Bedroom
+          - entity: sensor.front_room_temp_sensor_battery_2
+            name: Front Room
+          - entity: sensor.bathroom_temp_sensor_battery_2
+            name: Bathroom
+          - entity: sensor.spare_room_temp_sensor_battery_2
+            name: Spare Room
+          - entity: sensor.kitchen_temp_sensor_battery_2
+            name: Kitchen
+          - entity: sensor.front_door_motion_battery
+            name: Front Door Motion
+          - entity: sensor.back_door_sensor_battery
+            name: Back Door
+          - entity: sensor.bedroom_motion_sensor_battery_2
+            name: Bedroom Motion
+          - entity: sensor.big_mirror_motion_sensor_battery_2
+            name: Big Mirror Motion
+          - entity: sensor.hallway_motion_sensor_battery_2
+            name: Hallway Motion
+          - entity: sensor.bedroom_motion_sensor_battery_2
+            name: Safe Motion
+          - entity: sensor.kitchen_water_sensor_battery_2
+            name: Kitchen Leak Sensor
+          - entity: sensor.hot_water_leak_sensor_battery_2
+            name: Hot Water Tank Leak Sensor
+
+      - type: custom:battery-state-card
+        <<: *card_mod_transparent
+        sort_by_level: "asc"
+        collapse: 10
+        color_thresholds:
+          - value: 10
+            color: "#ff0000"
+          - value: 20
+            color: "#ff0000"
+          - value: 30
+            color: "#ffcc00"
+          - value: 40
+            color: "#ffcc33"
+          - value: 50
+            color: "#ffff00"
+          - value: 60
+            color: "#ccff33"
+          - value: 70
+            color: "#99ff00"
+          - value: 80
+            color: "#99ff00"
+          - value: 90
+            color: "#00ff00"
+          - value: 100
+            color: "#00ff00"
+        entities:
+          - entity: sensor.bathroom_water_sensor_battery_2
+            name: Bathroom Leak Sensor
+          - entity: sensor.bathroom_temp_sensor_battery_2
+            name: Bathroom Temp Sensor
+          - entity: sensor.bedroom_temp_sensor_battery_2
+            name: Bedroom Temp Sensor
+          - entity: sensor.big_mirror_motion_sensor_battery_2
+            name: Spare Room Motion Battery
+          - entity: sensor.sm_f926u1_battery_level
+            name: John's Galaxy Fold3
+          - entity: sensor.front_door_motion_battery
+            name: Front Door Motion Battery
+          - entity: sensor.tv_window_sensor_battery
+            name: TV Window open/close Battery
+          - entity: sensor.living_room_temp_sensor_battery_2
+            name: Livingroom Temp Sensor
+          - entity: sensor.0x0c4314fffe5bf0f4_battery
+            name: Bedroom Fan Window
+
+  #############################################################################################################################################
+  #                                                                                                                                           #
+  #                                                                VIEW 3 - DARK SKY WEATHER                                                  #
+  #                                                                                                                                           #
+  #############################################################################################################################################
+  - title: Weather
+    background: center / cover no-repeat url("/local/images/backgrounds/black2.jpg") fixed
+    icon: mdi:weather-lightning
+    cards:
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: My Weather Station
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_temp
+                primary: Temperature {{ (states('sensor.budd_st_weather_temp') | round(0))}}°
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_temp') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_temp
+                tap_action:
+                  action: more-info
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_feels_like
+                primary: Feels Like  {{ (states('sensor.budd_st_weather_feels_like') | round(0))}}°
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_feels_like') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_feels_like
+                tap_action:
+                  action: more-info
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_humidity
+                primary: Humidity  {{ (states('sensor.budd_st_weather_humidity') | round(0))}}%
+                icon: mdi:water-percent
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_humidity') %}
+                  {% if color > '65'%}amber{% elif color > '80' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_humidity
+                tap_action:
+                  action: more-info
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_uv
+                primary: UV  {{ (states('sensor.budd_st_weather_uv'))}}
+                icon: mdi:weather-sunny
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_uv') %}
+                  {% if color > '5'%}amber{% elif color > '7' %}red{% elif color > '8' %}purple{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_uv
+                tap_action:
+                  action: more-info
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_wind_speed
+                primary: Wind  {{ (states('sensor.budd_st_weather_wind_speed')|round(0))}} MPH
+                icon: mdi:wind-power-outline
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_wind_speed') %}
+                  {% if color > '65'%}amber{% elif color > '80' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_wind_speed
+                tap_action:
+                  action: more-info
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_wind_gust
+                primary: Gust  {{ (states('sensor.budd_st_weather_wind_gust')|round(0))}} MPH
+                icon: mdi:wind-power-outline
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_wind_gust') %}
+                  {% if color > '5'%}amber{% elif color > '7' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_wind_gust
+                tap_action:
+                  action: more-info
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_rel_pressure
+                primary: Pressure  {{ (states('sensor.budd_st_weather_rel_pressure')|round(0))}}%
+                icon: mdi:car-brake-low-pressure
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_rel_pressure') %}
+                  {% if color > '65'%}amber{% elif color > '80' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_rel_pressure
+                tap_action:
+                  action: more-info
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_dew_point
+                primary: Dew Point  {{ (states('sensor.budd_st_weather_dew_point')|round(0))}}%
+                icon: mdi:water-thermometer-outline
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_dew_point') %}
+                  {% if color > '60'%}amber{% elif color > '70' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_dew_point
+                tap_action:
+                  action: more-info
+
+          - <<: *round_header
+            name: Precipitation
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_event_rain
+                primary: Rain {{ (states('sensor.budd_st_weather_event_rain') )}} in
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_event_rain') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_event_rain
+                tap_action:
+                  action: more-info
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_hourly_rain_rate
+                primary: Rain Rate  {{ (states('sensor.budd_st_weather_hourly_rain_rate') )}} in
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_hourly_rain_rate') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_hourly_rain_rate
+                tap_action:
+                  action: more-info
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_hourly_rain_rate
+                primary: Hourly Rate {{ (states('sensor.budd_st_weather_hourly_rain_rate') )}} in
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_hourly_rain_rate') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_hourly_rain_rate
+                tap_action:
+                  action: more-info
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_monthly_rain
+                primary: Monthly Rate  {{ (states('sensor.budd_st_weather_monthly_rain') )}} in
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_monthly_rain') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_monthly_rain
+                tap_action:
+                  action: more-info
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_hourly_rain_rate
+                primary: Weekly Rate {{ (states('sensor.budd_st_weather_hourly_rain_rate') )}} in
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_hourly_rain_rate') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_hourly_rain_rate
+                tap_action:
+                  action: more-info
+              - type: custom:mushroom-template-card
+                entity_id: sensor.budd_st_weather_yearly_rain
+                primary: Yearly Rate  {{ (states('sensor.budd_st_weather_yearly_rain') )}} in
+                icon: mdi:thermometer
+                icon_color: >-
+                  {% set color = states('sensor.budd_st_weather_yearly_rain') %}
+                  {% if color < '50' %}blue{% elif color > '51' %}amber{% elif color > '75' %}red{% else %}green{% endif %}
+                entity: sensor.budd_st_weather_yearly_rain
+                tap_action:
+                  action: more-info
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity_id: sensor.lastrain
+                primary: Last Rain -  {{ (states('sensor.lastrain') )}}
+                icon: mdi:thermometer
+                icon_color: green
+                entity: sensor.lastrain
+                tap_action:
+                  action: none
+
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Weather
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: sensor.sunleft
+              - type: entity
+                entity: sensor.sun_rise
+              - type: entity
+                entity: sensor.sun_set
+              - type: entity
+                entity: sensor.moon
+          - type: weather-forecast
+            entity: weather.dark_sky
+            secondary_info_attribute: humidity
+            show_current: true
+            show_forecast: true
+
+          - type: weather-forecast
+            entity: weather.openweathermap
+            show_current: false
+            show_forecast: true
+
+          - type: custom:hourly-weather
+            entity: weather.openweathermap
+            num_segments: 12 # optional, defaults to 12
+            name: Next 12 hours # optional, defaults to "Hourly Weather"
+
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: sensor.budd_st_weather_uv
+              - type: entity
+                entity: sensor.budd_st_weather_wind_speed
+                content: "{{ states('sensor.budd_st_weather_wind_speed') | round(0, default=0) }} Mph"
+                icon: mdi:turbine
+              - type: template
+                entity: sensor.budd_st_weather_rel_pressure
+                content: "{{ states('sensor.budd_st_weather_rel_pressure') | round(0, default=0) }}%"
+                icon: mdi:gauge
+              - type: template
+                entity: sensor.budd_st_weather_dew_point
+                content: "{{ states('sensor.budd_st_weather_dew_point') | round(0, default=0) }}%"
+                icon: mdi:thermometer-water
+            alignment: center
+
+  #############################################################################################################################################
+  #                                                                                                                                           #
+  #                                                                VIEW 4 - Music                                                       #
+  #                                                                                                                                           #
+  #############################################################################################################################################
+
+  - title: Music
+    background: center url("/local/images/backgrounds/red.jpg") fixed
+    icon: mdi:music-note
+    type: panel
+    theme: darksquare
+    cards:
+      - type: custom:custom-sonos-card
+        shuffleFavorites: false
+        allVolumesText: "All volumes"
+        entityNameRegexToReplace: "SONOS "
+        entityNameReplacement: ""
+        groupsTitle: "My Speakers"
+        groupingTitle: "Locations"
+        mediaTitle: "Stations"
+        noMediaText: "What would you like to hear?"
+        layout:
+          mobileThresholdPx: 750
+          groups:
+            width: 20%
+            mobileWidth: 90%
+          players:
+            width: 20%
+            mobileWidth: 90%
+          mediaItems:
+            name: Favorites
+            width: 60%
+            mobileWidth: 70%
+          mediaItem:
+            width: 28%
+            mobileWidth: 80%
+        selectedPlayer: media_player.sonos_pair
+        backgroundBehindButtonSections: true
+        skipAdditionalPlayerSwitches: false
+        groups:
+          order: 1
+        players:
+          order: 2
+        player-body:
+          border: 5px black
+        player-song:
+          color: "#000000"
+        font-family: Times New Roman
+        font-weight: 900
+        mediaBrowser:
+          order: 0
+        title:
+          fontSize: 26px
+          fontWeight: lighter
+          textTransform: uppercase
+          color: white
+
+  ##################################################################
+  #                Kitchen INFO                                    #
+  ##################################################################
+
+  - title: Kitchen
+    background: center url("/local/images/backgrounds/darkorange.png") fixed
+    icon: mdi:fridge-outline
+    cards:
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Kitchen Status
+
+          - type: custom:battery-state-card
+            <<: *card_mod_transparent
+            color_thresholds:
+              - value: 10
+                color: "#ff0000"
+              - value: 20
+                color: "#ff0000"
+              - value: 30
+                color: "#ffcc00"
+              - value: 40
+                color: "#ffcc33"
+              - value: 50
+                color: "#ffff00"
+              - value: 60
+                color: "#ccff33"
+              - value: 70
+                color: "#99ff00"
+              - value: 80
+                color: "#99ff00"
+              - value: 90
+                color: "#00ff00"
+              - value: 100
+                color: "#00ff00"
+            entities:
+              - sensor.right_kitchen_window_battery
+              - sensor.sink_kitchen_window_battery
+
+          - type: entities
+            <<: *card_mod_transparent
+            entities:
+              - binary_sensor.right_kitchen_window_contact
+              - binary_sensor.sink_kitchen_window_contact
+
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Switches
+
+          - type: custom:mushroom-template-card
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+            primary: Island Lights
+            entity: light.island_lights_2
+            secondary: |
+              {% if is_state('light.island_lights_2', 'off') %}
+              Light is off
+              {% else %}             
+              Light is on
+              {% endif %}
+            icon_color: |
+              {% if is_state('light.island_lights_2', 'off') %}
+              none
+              {% else %}
+              yellow
+              {% endif %}
+            icon: |
+              {% if is_state('light.island_lights_2', 'off') %}
+              mdi:lightbulb
+              {% else %}
+              mdi:lightbulb
+              {% endif %}
+
+          - type: custom:mushroom-template-card
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+            primary: Sink Lights
+            entity: switch.sink_lights
+            secondary: |
+              {% if is_state('switch.sink_lights', 'off') %}
+              Light is off
+              {% else %}
+              Light is on
+              {% endif %}
+            icon_color: |
+              {% if is_state('switch.sink_lights', 'off') %}
+              none
+              {% else %}
+              yellow
+              {% endif %}
+            icon: |
+              {% if is_state('switch.sink_lights', 'off') %}
+              mdi:lightbulb
+              {% else %}
+              mdi:lightbulb
+              {% endif %}
+
+          - type: custom:mushroom-template-card
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+            primary: Counter Lights
+            entity: switch.counter_lights
+            secondary: |
+              {% if is_state('switch.counter_lights', 'off') %}
+              Light is off
+              {% else %}
+              Light is on
+              {% endif %}
+            icon_color: |
+              {% if is_state('switch.counter_lights', 'off') %}
+              none
+              {% else %}
+              yellow
+              {% endif %}
+            icon: |
+              {% if is_state('switch.counter_lights', 'off') %}
+              mdi:lightbulb
+              {% else %}
+              mdi:lightbulb
+              {% endif %}
+
+          - type: custom:mushroom-template-card
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+            primary: Hallway Lights
+            entity: light.hall_light
+            secondary: |
+              {% if is_state('light.hall_light', 'off') %}
+              Light is off
+              {% else %}
+              Light is on
+              {% endif %}
+            icon_color: |
+              {% if is_state('light.hall_light', 'off') %}
+              none
+              {% else %}
+              yellow
+              {% endif %}
+            icon: |
+              {% if is_state('light.hall_light', 'off') %}
+              mdi:lightbulb
+              {% else %}
+              mdi:lightbulb
+              {% endif %}
+
+          - type: custom:mushroom-template-card
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .1);
+              }
+            primary: Spareroom Lights
+            entity: light.spareroom
+            secondary: |
+              {% if is_state('light.spareroom', 'off') %}
+              Light is off
+              {% else %}
+              Light is on
+              {% endif %}
+            icon_color: |
+              {% if is_state('light.spareroom', 'off') %}
+              none
+              {% else %}
+              yellow
+              {% endif %}
+            icon: |
+              {% if is_state('light.spareroom', 'off') %}
+              mdi:lightbulb
+              {% else %}
+              mdi:lightbulb
+              {% endif %}
+
+  ##################################################################
+  #                Master Bedroom INFO                             #
+  ##################################################################
+
+  - title: Bedrooms
+    #background: center url("/local/images/backgrounds/sun.jpg") fixed
+    icon: mdi:bed-outline
+    cards:
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Master Bedroom
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: switch.bedroom_light_switch
+                icon: mdi:lightbulb
+                name: Light
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-light-card
+                entity: switch.bedroom_ambient_tv
+                icon: mdi:television-ambient-light
+                name: Ambient TV Lights
+                use_light_color: false
+                show_brightness_control: true
+                show_color_temp_control: true
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: 'Temperature: {{ states("sensor.bedroom_temp_sensor_temperature") | round(0) }}°'
+                secondary: 'Humidity: {{ states("sensor.bedroom_temp_sensor_humidity") | round(0) }}%'
+                entity: sensor.bedroom_temp_sensor_temperature
+                icon: mdi:thermometer
+                name: Temperature
+                use_light_color: false
+
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-fan-card
+                entity: switch.bedroom_fan
+                icon: mdi:fan
+                name: Fan
+                icon_animation: true
+                fill_container: true
+
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: switch.bed_lights_2
+                icon: mdi:lightbulb
+                name: Bed Lights
+                use_light_color: false
+                show_brightness_control: true
+                show_color_temp_control: true
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: 'Motion: {{ states("binary_sensor.bedroom_motion_sensor_occupancy") }}'
+                secondary: 'Battery: {{ states("sensor.bedroom_temp_sensor_battery_2") }}%'
+                entity: binary_sensor.bedroom_motion_sensor_occupancy
+                icon: mdi:motion
+                name: Motion
+                use_light_color: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: 'Window: {{ states("sensor.bedroom_window") }}'
+                secondary: 'Battery: {{ states("sensor.bedroom_window_sensor_battery") }}%'
+                icon: mdi:curtains
+                entity: sensor.front_room_temp_sensor_humidity
+                name: Window
+                icon_animation: true
+                fill_container: true
+                style: |
+                  ha-card {
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: 'Air Quality: {{ states("sensor.air_sensor_back_of_house_voc") }}'
+                secondary: 'Battery: {{ states("sensor.air_sensor_back_of_house_battery") }}%'
+                icon: mdi:wind-power
+                entity: sensor.air_sensor_back_of_house_voc
+                name: Window
+                icon_animation: true
+                fill_container: true
+                style: |
+                  ha-card {
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-light-card
+                entity: sensor.brownlovetunnel_bed
+                #icon: mdi:television-ambient-light
+                name: Bed Sensor
+                icon_animation: true
+                fill_container: true
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                tap_action:
+                  data: more_info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Front Bedroom Controls
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: switch.front_bedroom_light_switch
+                icon: mdi:lightbulb
+                name: Light
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-light-card
+                entity: switch.front_room_night_lights
+                icon: mdi:television-ambient-light
+                name: Front Room Night Light
+                use_light_color: false
+                show_brightness_control: true
+                show_color_temp_control: true
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: media_player.front_bedroom
+                icon: mdi:play-network
+                name: Roku
+                use_light_color: false
+
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-entity-card
+                entity: sensor.front_bedroom_active_app
+                icon: mdi:television-ambient-light
+                name: Roku Activity
+                use_light_color: false
+                show_brightness_control: true
+                show_color_temp_control: true
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.front_room_motion_occupancy
+                primary: 'Motion: {{ states("binary_sensor.front_room_motion_occupancy") }}'
+                secondary: 'Battery: {{ states("sensor.front_room_motion_battery") }}%'
+                icon: mdi:account
+                name: Motion Sensor
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: sensor.front_room_temp_sensor_temperature
+                primary: 'Temperature: {{ states("sensor.front_room_temp_sensor_temperature") | round(0) }}°'
+                secondary: 'Humidity: {{ states("sensor.front_room_temp_sensor_humidity")| round(0) }}%'
+                icon: mdi:thermometer
+                # name: Temperature
+                use_light_color: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+      ###################################################################################
+
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Spare Room
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.spareroom
+                icon: mdi:lightbulb
+                name: Light
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.spare_room_motion_occupancy
+                primary: 'Motion: {{ states("binary_sensor.spare_room_motion_occupancy") }}'
+                secondary: 'Battery: {{ states("sensor.spare_room_motion_battery") }}%'
+                icon: mdi:television-ambient-light
+                name: Motion Sensor
+                primary_info: state
+                secondary_info: name
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: sensor.spare_room_motion_device_temperature
+                primary: 'Temperature: {{ states("sensor.spare_room_motion_device_temperature") | round(0) }}°'
+                secondary: 'Humidity: {{ states("sensor.spare_room_temp_sensor_humidity")| round(0) }}%'
+                icon: mdi:thermometer
+                name: Temperature
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+  ##################################################################
+  #                Livingroom INFO                                 #
+  ##################################################################
+
+  - title: LivingRoom
+    background: center url("/local/images/backgrounds/blackwood.jpg") fixed
+    icon: mdi:home-analytics
+    cards:
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: LivingRoom
+
+      - type: vertical-stack
+        cards:
+          - <<: *cb_spacer_1px
+          - type: entities
+            <<: *card_mod_transparent
+            entities:
+              - sensor.livingroom
+              - sensor.living_room_temp_sensor_humidity
+              - binary_sensor.front_door_motion_occupancy
+              - binary_sensor.tv_window_sensor_contact
+            state_color: true
+          #- type: vertical-stack
+          #  cards:
+          - type: custom:purifier-card
+            entity: fan.mi_air_purifier_3_3h
+            aqi:
+              entity_id: sensor.mi_air_purifier_3_3h_pm2_5
+              unit: µg/m³
+            stats:
+              - entity_id: sensor.mi_air_purifier_3_3h_motor_speed
+                unit: RPM
+                subtitle: Speed
+              - entity_id: sensor.mi_air_purifier_3_3h_temperature
+                unit: ºF
+                subtitle: Temperature
+              - entity_id: sensor.mi_air_purifier_3_3h_humidity
+                unit: "%"
+                subtitle: Humidity
+              - entity_id: sensor.mi_air_purifier_3_3h_filter_life_remaining
+                subtitle: Filter
+                unit: "%"
+            actions:
+              - name: Silent
+                icon: mdi:weather-night
+                preset_mode: Silent
+              - name: 25%
+                icon: mdi:circle-slice-2
+                preset_mode: Favorite
+                number.mi_air_purifier_3_3h_favorite_level: 3
+              - name: 50%
+                icon: mdi:circle-slice-4
+                preset_mode: Favorite
+                number.mi_air_purifier_3_3h_favorite_level: 7
+              - name: 75%
+                icon: mdi:circle-slice-6
+                preset_mode: Favorite
+                number.mi_air_purifier_3_3h_favorite_level: 10
+              - name: 100%
+                icon: mdi:circle-slice-8
+                preset_mode: Favorite
+                number.mi_air_purifier_3_3h_favorite_level: 14
+              - name: Auto
+                icon: mdi:refresh-auto
+                preset_mode: Auto
+            shortcuts:
+              - name: Silent
+                icon: mdi:weather-night
+                preset_mode: Silent
+              - name: 25%
+                icon: mdi:circle-slice-2
+                percentage: 25
+              - name: 50%
+                icon: mdi:circle-slice-4
+                percentage: 50
+              - name: 75%
+                icon: mdi:circle-slice-6
+                percentage: 100
+              - name: Auto
+                icon: mdi:refresh-auto
+                preset_mode: Auto
+            show_name: true
+            show_status: true
+            show_state: true
+            show_toolbar: true
+            compact_view: false
+
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Controls
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: switch.0x00124b001f8abec0
+                icon: mdi:lightbulb
+                name: My Lamp
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-light-card
+                entity: switch.livingroom_2
+                icon: mdi:lightbulb
+                name: Chair Lamp
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.tv_stand_2
+                icon: mdi:lightbulb
+                name: TV Stand
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-light-card
+                entity: switch.living_room_ambient_tv
+                icon: mdi:lightbulb
+                name: Ambient Lights
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: script.tv_on
+                icon: mdi:lightbulb
+                name: Tv Group
+                tap_action:
+                  action: toggle
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-light-card
+                entity: switch.colored_light
+                icon: mdi:television-ambient-light
+                name: Hallway Colored Light
+                use_light_color: true
+                show_brightness_control: false
+                show_color_temp_control: true
+                collapsible_controls: true
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+  ##################################################################
+  #                Bathroom  INFO                                  #
+  ##################################################################
+
+  - title: Bathroom
+    background: center url("/local/images/backgrounds/redish.jpg") fixed
+    icon: mdi:paper-roll
+    cards:
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Controls
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.bathroom
+                icon: mdi:lightbulb
+                name: Light
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-light-card
+                entity: light.bathroom_vent_light
+                icon: mdi:lightbulb
+                name: Light
+                use_light_color: false
+                show_brightness_control: false
+                show_color_temp_control: false
+                collapsible_controls: false
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: sensor.spare_room_motion_device_temperature
+                primary: 'Temperature: {{ states("sensor.bathroom_temp_sensor_temperature") | round(0) }}°'
+                secondary: 'Humidity: {{ states("sensor.bathroom_temp_sensor_humidity")| round(0) }}%'
+                icon: mdi:thermometer
+                name: Temperature
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.spare_room_motion_occupancy
+                primary: 'Water Leak Sensor: {{ states("binary_sensor.bathroom_water_sensor_water_leak") }}'
+                secondary: 'Battery: {{ states("sensor.bathroom_water_sensor_battery_2") }}%'
+                icon: mdi:water
+                name: Water Leak Sensor
+                primary_info: state
+                secondary_info: name
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.spare_room_motion_occupancy
+                primary: 'Motion: {{ states("binary_sensor.big_mirror_motion_sensor_occupancy") }}'
+                secondary: 'Battery: {{ states("sensor.big_mirror_motion_sensor_battery_2") }}%'
+                icon: mdi:water
+                name: Water Leak Sensor
+                primary_info: state
+                secondary_info: name
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+  ##################################################################
+  #               HVAC INFO                                        #
+  ##################################################################
+  - title: HVAC
+    background: center url("/local/images/backgrounds/maroon1.jpg") fixed
+    icon: mdi:hvac
+    cards:
+      - <<: *cb_spacer_1px
+
+      - type: custom:simple-thermostat
+        <<: *card_mod_transparent
+        entity: climate.thermostat
+        name: false
+        decimals: 0
+        step_size: 1
+        title: Furnace
+
+      - <<: *cb_spacer_1px
+
+      - type: custom:simple-thermostat
+        <<: *card_mod_transparent
+        entity: climate.john_s_device
+        name: false
+        decimals: 0
+        step_size: 1
+        sensors:
+          - entity: sensor.thermostat_relative_humidity_measurement
+            name: House Humidity
+            decimals: 2
+          - entity: sensor.budd_st_weather_humidity_in
+            name: Outside Humidity
+            decimals: 0
+
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: House Temperatures
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Front Room Temperature
+                secondary: '{{ states("sensor.front_room_temp_sensor_temperature")| round(0) }}°'
+                icon: mdi:home-account
+                entity: sensor.front_room_temp_sensor_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                primary: Bathroom Temperature
+                secondary: '{{ states("sensor.bathroom_temp_sensor_temperature")| round(0) }}°'
+                icon: mdi:paper-roll
+                entity: sensor.bathroom_temp_sensor_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Bedroom Temperature
+                secondary: '{{ states("sensor.bedroom_temp_sensor_temperature")| round(0) }}°'
+                icon: mdi:bed
+                entity: sensor.bedroom_temp_sensor_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                primary: Livingroom Temperature
+                secondary: '{{ states("sensor.living_room_temp_sensor_temperature")| round(0) }}°'
+                icon: mdi:sofa
+                entity: sensor.living_room_temp_sensor_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Spare room Temperature
+                secondary: '{{ states("sensor.spare_room_temp_sensor_temperature")| round(0) }}°'
+                icon: mdi:home-account
+                entity: sensor.spare_room_temp_sensor_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                primary: Kitchen Temperature
+                secondary: '{{ states("sensor.kitchen_temp_sensor_temperature")| round(0) }}°'
+                icon: mdi:fridge-outline
+                entity: sensor.kitchen_temp_sensor_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Hallway Temperature
+                secondary: '{{ states("sensor.hallway_motion_sensor_temperature")| round(0) }}°'
+                icon: mdi:home-account
+                entity: sensor.hallway_motion_sensor_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                primary: Outside Temperature
+                secondary: '{{ states("sensor.budd_st_weather_temp")| round(0) }}°'
+                icon: mdi:sun-thermometer
+                entity: sensor.budd_st_weather_temp
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Kitchen Water Leak Temperature
+                secondary: '{{ states("sensor.kitchen_water_sensor_temperature_2")| round(0) }}°'
+                icon: mdi:thermometer-water
+                entity: sensor.kitchen_water_sensor_temperature_2
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+              - type: custom:mushroom-template-card
+                primary: Hot Water Tank Temperature
+                secondary: '{{ states("sensor.samsung_water_tank_temperature")| round(0) }}°'
+                icon: mdi:thermometer-water
+                entity: sensor.samsung_water_tank_temperature
+                tap-action:
+                  action: more-info
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+  ##################################################################
+  #                LED INFO                             #
+  ##################################################################
+  - title: LED Lights
+    #background: center url("/local/images/backgrounds/led1.jpg") fixed
+    icon: mdi:led-strip
+    cards:
+      - type: vertical-stack
+        cards:
+          - <<: *round_header
+            name: Led FUN lights
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.wled_fun
+                icon: mdi:lightbulb
+                use_light_color: true
+                show_brightness_control: true
+                show_color_temp_control: true
+                collapsible_controls: true
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+              - type: custom:mushroom-light-card
+                entity: light.wled_soundreactive
+                icon: mdi:lightbulb
+                use_light_color: true
+                show_brightness_control: true
+                show_color_temp_control: true
+                collapsible_controls: true
+                style: |
+                  ha-card {                     
+                    background-color: rgba(255, 255, 255, .1);
+                  }
+
+          ########################################
+          #      Cameras                         #
+          ########################################
+
+  - title: Cameras
+    icon: mdi:camera
+    type: panel
+    cards:
+      - type: custom:surveillance-card
+        thumb_interval: 15
+        update_interval: 2
+        recording_duration: 10
+        show_capture_buttons: true
+        cameras:
+          - entity: camera.blink_back_door
+            motion_entity: binary_sensor.blink_back_door_motion_detected
+          - entity: camera.blink_livingroom_camera
+            motion_entity: binary_sensor.blink_living_room_camera_motion_detected
+          - entity: camera.blink_front_doot
+            motion_entity: binary_sensor.blink_front_doot_motion_detected
+          - entity: camera.blink_back_yard_camera
+            motion_entity: binary_sensor.blink_back_yard_camera_motion_detected
+          - entity: camera.blink_back_yard
+            motion_entity: binary_sensor.blink_back_yard_motion_detected
+          - entity: camera.blink_deck
+            motion_entity: binary_sensor.blink_blink_deck_motion_detected
+          - entity: camera.blink_driveway
+            motion_entity: binary_sensor.blink_back_yard_motion_detected
+
+  - title: Test Pit
+    background: center url("/local/images/backgrounds/darkcolor.jpg") fixed
+    icon: mdi:file-certificate
+    cards:
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Hello, {{user}}
+            secondary: How are you?
+            icon: mdi:home
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: light
+                entity: switch.counter_lights
+                content_info: none
+                use_light_color: true
+              - type: template
+                content: >-
+                  {{ state_attr('climate.john_s_device',
+                  'temperature')|float}}°F
+                tap_action:
+                  action: none
+              - type: entity
+                entity: binary_sensor.sink_kitchen_window_contact
+                content_info: none
+              - type: template
+                content: >-
+                  {{ state_attr('sensor.john',
+                  'devicetracker_zone')}}
+                tap_action:
+                  action: none
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                content: >-
+                  {% if (state_attr('sensor.john','direction_of_travel') == 'stationary') %}
+                  John is here:
+                  {{ state_attr('sensor.john','street_number') }} {{
+                  state_attr('sensor.john','street') }}, {{
+                  state_attr('sensor.john','city') }}, {{
+                  state_attr('sensor.john','postal_code') }}
+                  {% else %}
+                  {% if states('sensor.speed_mph') > 0 %}
+                  John is traveling and is going {{ states('sensor.speed_mph') }} MPH
+                  {% else %}
+                  Traveling...not sure where
+                  {% endif %}
+                  {% endif %}
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: menu
+              - type: entity
+                entity: alarm_control_panel.blink_johns_house
+              - type: entity
+                entity: person.john
+                icon: mdi:face-man
+              - type: entity
+                entity: person.john
+                icon: mdi:face-woman
+          #      - type: conditional
+          #        conditions:
+          #          - entity: light.island_lights_2
+          #            state: "on"
+          #        chip:
+          #          type: template
+          #          content: Kitchen light is on
+          #          icon: mdi:lightbulb-on-outline
+          #          icon_color: yellow
+          # - type: map
+          #   entities:
+          #     - device_tracker.sm_f926u1
+          #     - device_tracker.sm_f926u1
+          #   dark_mode: false
+
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                content: >-
+                  Speed: {{ state_attr('device_tracker.sm_f926u1','speed') }}
+              - type: template
+                content: >-
+                  Lat: {{ state_attr('device_tracker.sm_f926u1','latitude') }}
+              - type: template
+                content: >-
+                  Long: {{ state_attr('device_tracker.sm_f926u1','longitude') }}
+                alignment: center
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: menu
+              - type: weather
+                entity: weather.dark_sky
+                show_conditions: true
+                show_temperature: true
+              - type: entity
+                entity: light.tv_stand_2
+                icon_color: orange
+                icon: mdi:ceiling-light
+              - type: entity
+                entity: alarm_control_panel.blink_johns_house
+                icon_color: blue-grey
+                icon: mdi:shield-half-full
+          - type: grid
+            cards:
+              - type: custom:mushroom-person-card
+                entity: person.john
+                use_entity_picture: true
+                vertical: true
+              - type: custom:mushroom-person-card
+                entity: device_tracker.sm_f926u1
+                vertical: true
+              #- type: custom:mushroom-entity-card
+              #  entity: binary_sensor.updater
+              #  vertical: true
+            square: false
+            columns: 3
+          - type: grid
+            title: Lights
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.tv_stand_2
+                icon: mdi:ceiling-light-multiple
+                show_brightness_control: true
+                use_light_color: true
+                collapsible_controls: true
+              - type: custom:mushroom-light-card
+                entity: light.island_lights_2
+                icon: mdi:lamps
+                show_brightness_control: true
+                collapsible_controls: true
+              - type: custom:mushroom-light-card
+                entity: switch.sink_lights
+                icon: mdi:lamps
+                show_brightness_control: true
+                collapsible_controls: true
+            columns: 3
+            square: true
+
+          - type: grid
+            title: Devices
+            cards:
+              #- type: custom:mushroom-fan-card
+              #  entity: fan.mi_air_purifier_3_3h
+              #  show_percentage_control: true
+              #  show_oscillate_control: true
+              - type: custom:mushroom-alarm-control-panel-card
+                entity: alarm_control_panel.blink_johns_house
+                states:
+                  - armed_away
+                name: Security System
+                #icon: >-
+                #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
+                #  mdi:shield-home
+                #  {% else %}
+                #  mdi:shield-home-outline
+                #  {% endif %}
+                #icon_color: |
+                #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
+                #  green
+                #  {% else %}
+                #  cyan
+                #  {% endif %}
+                layout: vertical
+                card_mod:
+                  style: |
+                    ha-card {                     
+                      background-color: {{ 'rgba(255, 255, 255, 0.1)' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') else 'rgba(147, 227, 215, 0.5)' }};
+                    }
+                    mushroom-shape-icon {
+                      {{ 'animation: blink 1.3s ease-in-out infinite; color:red;' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') }}
+                    }
+                    @keyframes blink {
+                      50% {opacity: 0.1;}
+                    }
+              - type: custom:mushroom-template-card
+                layout: vertical
+                secondary: 'Battery: {{ state_attr(entity, "battery") }}%'
+                entity: lock.front_door_lock_2
+                primary: |
+                  {% if is_state(entity, 'unlocked') %}
+                  Door is Unlocked
+                  {% else %}
+                  Door is Locked
+                  {% endif %}
+                icon_color: |
+                  {% if is_state(entity, 'unlocked') %}
+                  red
+                  {% else %}
+                  green
+                  {% endif %}
+                icon: |
+                  {% if is_state(entity, 'unlocked') %}
+                  mdi:lock-open
+                  {% else %}
+                  mdi:lock
+                  {% endif %}
+                card_mod:
+                  style: |
+                    ha-card {                     
+                      background-color: {{ 'rgba(255, 255, 255, 0.1)' if is_state('lock.front_door_lock_2', 'unlocked') else 'rgba(147, 227, 215, 0.5)' }};
+                      height:125px !important;
+                    }
+                    mushroom-shape-icon {
+                      {{ 'animation: blink 1.3s ease-in-out infinite;' if is_state('lock.front_door_lock_2', 'unlocked') }}
+                    }
+                    @keyframes blink {
+                      50% {opacity: 0.1;}
+                    }
+              - type: custom:mushroom-entity-card
+                entity: switch.bedroom_fan
+                icon: mdi:light-switch
+                name: Switch
+              - type: custom:mushroom-entity-card
+                entity: sensor.bedroom_motion_sensor_power_outage_count
+                icon_color: purple
+                icon: mdi:transmission-tower
+            columns: 2
+            square: false
+
+        #  - type: custom:mini-graph-card
+        #    name: Speedtest
+        #    align_state: center
+        #    icon: mdi:speedometer
+        #    update_interval: 30
+        #    animate: true
+        #    font_size_header: 20px;
+        #    font_size: 22px;
+        #    action:
+        #      - more-info
+        #    show:
+        #      extrema: true
+        #      labels: true
+        #      points: true
+        #      legend: true
+        #    entities:
+        #      - entity: sensor.speedtest_download
+        #        name: Download
+        #        color: green
+        #      - entity: sensor.speedtest_upload
+        #        name: Upload
+        #        color: yellow
+        #- entity: sensor.speedtest_ping
+        #  name: Ping
+        #  color: yellow
+        #    style: |
+        #      ha-card {
+        #        background-color: rgba(255, 255, 255, .1);
+        #      }
