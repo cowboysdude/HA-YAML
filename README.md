@@ -7,7 +7,7 @@ This is how my HA views look
 
 
 The js files I use:
-
+```
 lovelace:
   mode: yaml
   resources:
@@ -91,6 +91,7 @@ lovelace:
 
     - url: /hacsfiles/refreshable-picture-card/refreshable-picture-card.js
       type: module
+     
 
     - url: /hacsfiles/bom-weather-card/bom-weather-card.js
       type: module
@@ -98,3 +99,4 @@ lovelace:
     - url: /hacsfiles/lovelace-hourly-weather/hourly-weather.js
       type: module
 
+ ```
