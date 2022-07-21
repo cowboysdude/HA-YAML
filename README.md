@@ -9,7 +9,7 @@ This is how my HA views look
 
 # Weather Page
 
-![alt text](main.png)
+![alt text](weather.png)
 
 
 The js files I use:
