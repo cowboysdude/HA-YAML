@@ -5,7 +5,7 @@ This is how my HA views look
 
 # Main Page
 
-![alt text](main.png)
+![alt text](main1.png)
 
 # Weather Page
   The weather on the left is my personal weather station.  
