@@ -319,6 +319,38 @@ anchors:
 #                                                            VIEW 0 - JOHN'S CRIB                                                           #
 #                                                                                                                                           #
 #############################################################################################################################################
+header_cards:
+  justify_content: space-between
+  # badges:
+  #   - entity: person.john
+  #     name: ""
+  cards:
+    - type: custom:mushroom-chips-card
+      chips:
+        - type: entity
+          entity: sensor.12hourtime
+          icon: none
+          card_mod:
+            style: |
+              ha-card {
+                width: 50%;
+                --text-color: #000000;
+                --chip-font-weight: bold;
+                --chip-font-size: 25px;
+                --text-shadow: 3px 3px 2px yellow
+              }
+
+        - type: entity
+          entity: sensor.date_format
+          icon: none
+          card_mod:
+            style: |
+              ha-card {
+                width: 50%;
+                --text-color: #000000;
+                --chip-font-weight: bold;
+                --chip-font-size: 25px;
+              }
 
 title: " "
 #background: black
@@ -331,37 +363,6 @@ views:
     cards:
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-chips-card
-            card_mod:
-              style: |
-                ha-card {
-                  background-color: rgba(var(--rgb-card-background-color),0.2);
-                }
-            chips:
-              - type: entity
-                entity: sensor.12hourtime
-                icon: mdi:clock
-                icon_color: orange
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 50%;
-                      --chip-font-weight: bold;
-                      --chip-font-size: 25px;                  
-                    }
-
-              - type: entity
-                icon: mdi:calendar
-                icon_color: yellow
-                entity: sensor.date_format
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 50%;
-                      --chip-font-weight: bold;
-                      --chip-font-size: 25px;
-                    }
-
           - type: custom:mushroom-media-player-card
             entity: media_player.sonos_pair
             icon: mdi:music
@@ -389,39 +390,6 @@ views:
                   font-size: 75px;
                   background-color: rgba(var(--rgb-card-background-color),0.2);
               }
-
-      # - type: custom:mushroom-person-card
-      #   entity: person.john
-      #   layout: horizontal
-      #   #icon: mdi:emoticon-confused-outline
-      #   use_entity_picture: true
-      #   #primary_info: sensor.sm_f926u1_battery_level
-      #   #secondary_info: sensor.sm_f926u1_battery_level
-      #   hide_state: false
-      #   fill_container: true
-      #   hide_name: false
-      #   layout: vertical
-      #   style: |
-      #     :host {
-      #       --mush-rgb-state-person-home: var(--rgb-blue);
-      #       --mush-rgb-state-person-not-home: var(--rgb-purple);
-      #       --mush-rgb-state-person-zone: var(--rgb-amber);
-      #       --ha-card-background: rgba(227, 245, 250, 0.12);
-      #     }
-
-      #  - type: custom:mushroom-alarm-control-panel-card
-      #    entity: alarm_control_panel.blink_johns_house
-      #    card_mod:
-      #      style: |
-      #        ha-card {
-      #          background-color: {{ 'rgba(255, 255, 255, .1)' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') else 'rgba(147, 227, 215, 0.5)' }};
-      #        }
-      #    states:
-      #      - armed_away
-      #    name: Camera System
-      #    icon: mdi:shield-home
-      #    icon_color: "{{ is_state('alarm_control_panel.blink_johns_house', 'disarmed') | iif('red', 'green') }}"
-      #    layout: vertical
 
       ################################################
       # person card - John
@@ -534,20 +502,14 @@ views:
                   {{ states('sensor.living_room_temp_sensor_temperature')| round (0)}}°F
                 tap_action:
                   action: none
-              - type: entity
-                entity: lock.front_door_lock_2
-                content_info: none
-              - type: entity
-                entity: alarm_control_panel.blink_johns_house
-                content_info: none
-              - type: template
-                content: >-
-                  {{ states('climate.john_s_device')}}
+              - type: weather
+                entity: weather.dark_sky
+                show_conditions: true
+                show_temperature: true
                 tap_action:
-                  action: none
-              - type: entity
-                entity: sensor.blink_back_yard_temperature
-                content_info: none
+                  action: navigate
+                  navigation_path: /lovelace/3
+
           - type: custom:mushroom-template-card
             entity: sensor.john
             primary: >
@@ -582,7 +544,6 @@ views:
               {% else %} cyan
               {% endif %}
             multiline_secondary: true
-
           - type: map
             default_zoom: 16
             entities:
@@ -606,7 +567,8 @@ views:
                 card_mod:
                   style: |
                     ha-card {                     
-                     
+                      background-color: {{ 'rgba(255,114,118, 0.4)' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') else 'rgba(147, 227, 215, 0.2)' }};
+                    }
                     mushroom-shape-icon {
                       {{ 'animation: blink 1.3s ease-in-out infinite; color:red;' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') }}
                     }
@@ -638,8 +600,9 @@ views:
                   {% endif %}
                 card_mod:
                   style: |
-                    ha-card { 
-                      height:160px !important;
+                    ha-card {
+                      background-color: {{ 'rgba(255,114,118, 0.4)' if is_state('lock.front_door_lock_2', 'unlocked') else 'rgba(147, 227, 215, 0.2)' }};
+                      height:170px !important;
                     }
                     mushroom-shape-icon {
                       {{ 'animation: blink 1.3s ease-in-out infinite;' if is_state('lock.front_door_lock_2', 'unlocked') }}
@@ -648,76 +611,9 @@ views:
                       50% {opacity: 0.1;}
                     }
 
-          # - type: custom:mushroom-alarm-control-panel-card
-          #   entity: alarm_control_panel.blink_johns_house
-          #   states:
-          #     - armed_away
-          #   name: Security System
-          #icon: >-
-          #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
-          #  mdi:shield-home
-          #  {% else %}
-          #  mdi:shield-home-outline
-          #  {% endif %}
-          #icon_color: |
-          #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
-          #  green
-          #  {% else %}
-          #  cyan
-          #  {% endif %}
-          #   layout: vertical
-          #   card_mod:
-          #     style: |
-          #       ha-card {
-          #         background-color: {{ 'rgba(255, 255, 255, 0.1)' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') else 'rgba(147, 227, 215, 0.5)' }};
-          #       }
-          #       mushroom-shape-icon {
-          #         {{ 'animation: blink 1.3s ease-in-out infinite; color:red;' if is_state('alarm_control_panel.blink_johns_house', 'disarmed') }}
-          #       }
-          #       @keyframes blink {
-          #         50% {opacity: 0.1;}
-          #       }
-
           #######################################################################################
           #                              END PERSON CARD
           #######################################################################################
-
-          # - type: vertical-stack
-          #   cards:
-          # - type: custom:mushroom-template-card
-          #   layout: vertical
-          #   secondary: 'Battery: {{ state_attr(entity, "battery") }}%'
-          #   entity: lock.front_door_lock_2
-          #   primary: |
-          #     {% if is_state(entity, 'unlocked') %}
-          #     Door is Unlocked
-          #     {% else %}
-          #     Door is Locked
-          #     {% endif %}
-          #   icon_color: |
-          #     {% if is_state(entity, 'unlocked') %}
-          #     red
-          #     {% else %}
-          #     green
-          #     {% endif %}
-          #   icon: |
-          #     {% if is_state(entity, 'unlocked') %}
-          #     mdi:lock-open
-          #     {% else %}
-          #     mdi:lock
-          #     {% endif %}
-          #   card_mod:
-          #     style: |
-          #       ha-card {
-          #         background-color: {{ 'rgba(255, 255, 255, 0.1)' if is_state('lock.front_door_lock_2', 'unlocked') else 'rgba(147, 227, 215, 0.5)' }};
-          #         height:125px !important;
-          #       }
-          #       mushroom-shape-icon {
-          #         {{ 'animation: blink 1.3s ease-in-out infinite;' if is_state('lock.front_door_lock_2', 'unlocked') }}
-          #       }
-          #       @keyframes blink {
-          #         50% {opacity: 0.1;}
-          #       }
 
           - type: grid
             #title: Lights
@@ -924,93 +820,156 @@ views:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-template-card
+            primary: "Front Porch"
+            secondary: |
+              {% if is_state('switch.front_porch_light', 'on') %}
+              Light is On
+              {% else %}
+              Light is Off
+              {% endif %}
+            entity: switch.front_porch_light
+            picture: |
+              {% if is_state('switch.front_porch_light', 'on') %}
+              /local/animated/lightbulbon.png
+              {% else %}
+              /local/animated/lightbulb.png
+              {% endif %}
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .3);
+              }
+
+          - type: custom:mushroom-template-card
+            primary: "Back Porch"
+            secondary: |
+              {% if is_state('switch.back_outside_light', 'on') %}
+              Light is On
+              {% else %}
+              Light is Off
+              {% endif %}
+            entity: switch.back_outside_light
+            picture: |
+              {% if is_state('switch.back_outside_light', 'on') %}
+              /local/animated/lightbulbon.png
+              {% else %}
+              /local/animated/lightbulb.png
+              {% endif %}
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .3);
+              }
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
             primary: 'AC: {% if is_state("climate.john_s_device", "cool") %}
               Cooling
               {% else %}
               Off
               {% endif %}'
-            #secondary: 'AC: {{ states("sensor.tv_window_sensor_battery") }}%'
+            secondary: 'AC Temp: {{ state_attr("climate.john_s_device", "current_temperature")| round(0)}}° - MB: {{ states("sensor.bedroom_temp_sensor_temperature")| round(0)}}°'
             entity: climate.john_s_device
             icon_color: |
               {% if is_state('climate.john_s_device', 'cool') %}
-              blue
+              green
               {% else %}
               red
               {% endif %}
-            icon: |
+            picture: |
               {% if is_state('climate.john_s_device', 'cool') %}
-              mdi:fan-chevron-down
+              /local/animated/snowflake-lights.gif
               {% else %}
-              mdi:fan-chevron-up
+              /local/animated/snowflake.png
               {% endif %}
-            use_light_color: false
             tap_action:
               action: more-info
             style: |
               ha-card {                     
-                background-color: rgba(255, 255, 255, .1);
+                background-color: rgba(255, 255, 255, .3);
               }
-
-      - type: vertical-stack
+      - type: horizontal-stack
         cards:
           - type: custom:mushroom-template-card
             primary: 'John there are {{ states("sensor.lightson") }} lights on'
-            entity: sensor.lightson
-            icon: mdi:lightbulb-alert
-            use_light_color: false
-            tap_action:
-              action: more-info
+            secondary: |
+              {% if is_state('sensor.lightson', 'on') %}
+                Lights are on
+              {% else %}
+                Lights are Off
+              {% endif %}
+            picture: |
+              {% if is_state('sensor.lightson', 'on') %}
+              /local/animated/lightbulbon.png
+              {% else %}
+              /local/animated/lightbulb.png
+              {% endif %}
             style: |
               ha-card {                     
-                background-color: rgba(255, 255, 255, .1);
+                background-color: rgba(255, 255, 255, .3);
               }
 
-          - type: custom:mushroom-light-card
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
             entity: light.outside_front_lights
-            icon: mdi:lightbulb
-            use_light_color: true
-            show_brightness_control: true
-            show_color_temp_control: true
-            collapsible_controls: true
+            primary: "Outside Night Light"
+            secondary: |
+              {% if is_state('light.outside_front_lights', 'on') %}
+              Light is On
+              {% else %}
+              Light is Off
+              {% endif %}
+            picture: |
+              {% if is_state('light.outside_front_lights', 'on') %}
+              /local/animated/lightbulbon.png
+              {% else %}
+              /local/animated/lightbulb.png
+              {% endif %}
             style: |
               ha-card {                     
-                background-color: rgba(255, 255, 255, .1);
+                background-color: rgba(255, 255, 255, .3);
               }
 
-          - type: custom:mushroom-light-card
-            entity: switch.front_porch_light
-            icon: mdi:lightbulb
-            use_light_color: true
-            show_brightness_control: true
-            show_color_temp_control: true
-            collapsible_controls: true
-            style: |
-              ha-card {                     
-                background-color: rgba(255, 255, 255, .1);
-              }
-
-          - type: custom:mushroom-light-card
-            entity: switch.back_outside_light
-            icon: mdi:lightbulb
-            use_light_color: true
-            show_brightness_control: true
-            show_color_temp_control: true
-            collapsible_controls: true
-            style: |
-              ha-card {                     
-                background-color: rgba(255, 255, 255, .1);
-              }
-
-          - type: custom:mushroom-light-card
+          - type: custom:mushroom-template-card
             entity: switch.colored_light
-            icon: mdi:lightbulb-multiple
-            use_light_color: false
-            show_brightness_control: false
-            show_color_temp_control: false
-            collapsible_controls: false
+            primary: "Colored Night Light"
+            secondary: |
+              {% if is_state('switch.colored_light', 'on') %}
+              Light is On
+              {% else %}
+              Light is Off
+              {% endif %}
+            picture: |
+              {% if is_state('switch.colored_light', 'on') %}
+              /local/animated/lightbulbon.png
+              {% else %}
+              /local/animated/lightbulb.png
+              {% endif %}
             style: |
               ha-card {                     
-                background-color: rgba(255, 255, 255, .1);
+                background-color: rgba(255, 255, 255, .3);
+              }
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            entity: switch.gazebo_lights
+            primary: "Gazebo Lights"
+            secondary: |
+              {% if is_state('switch.gazebo_lights', 'on') %}
+              Gazebo is On
+              {% else %}
+              Gazebo is Off
+              {% endif %}
+            picture: |
+              {% if is_state('switch.gazebo_lights', 'on') %}
+              /local/animated/lightbulbon.png
+              {% else %}
+              /local/animated/lightbulb.png
+              {% endif %}
+            style: |
+              ha-card {                     
+                background-color: rgba(255, 255, 255, .3);
               }
 
           ####################################################
@@ -1129,7 +1088,7 @@ views:
   ####################### Batteries ######################################
 
   - title: Batteries
-    background: center / cover no-repeat url("/local/images/backgrounds/gray.jpg") fixed
+    #background: center / cover no-repeat url("/local/images/backgrounds/gray.jpg") fixed
     icon: mdi:battery
     cards:
       ####################### Humidity Sensors ##############################
@@ -2482,8 +2441,8 @@ views:
         cameras:
           - entity: camera.blink_back_door
             motion_entity: binary_sensor.blink_back_door_motion_detected
-          - entity: camera.blink_livingroom_camera
-            motion_entity: binary_sensor.blink_living_room_camera_motion_detected
+          # - entity: camera.blink_livingroom_camera
+          #   motion_entity: binary_sensor.blink_living_room_camera_motion_detected
           - entity: camera.blink_front_doot
             motion_entity: binary_sensor.blink_front_doot_motion_detected
           - entity: camera.blink_back_yard_camera
@@ -2641,27 +2600,12 @@ views:
           - type: grid
             title: Devices
             cards:
-              #- type: custom:mushroom-fan-card
-              #  entity: fan.mi_air_purifier_3_3h
-              #  show_percentage_control: true
-              #  show_oscillate_control: true
               - type: custom:mushroom-alarm-control-panel-card
                 entity: alarm_control_panel.blink_johns_house
                 states:
                   - armed_away
                 name: Security System
-                #icon: >-
-                #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
-                #  mdi:shield-home
-                #  {% else %}
-                #  mdi:shield-home-outline
-                #  {% endif %}
-                #icon_color: |
-                #  {% if is_state('alarm_control_panel.blink_johns_house', 'disarmed') %}
-                #  green
-                #  {% else %}
-                #  cyan
-                #  {% endif %}
+
                 layout: vertical
                 card_mod:
                   style: |
